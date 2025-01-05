@@ -1,0 +1,31 @@
+{
+  "name": "@extension/migration",
+  "version": "0.1.0",
+  "description": "chrome extension - backend api",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "clean:bundle": "rimraf dist",
+    "clean:node_modules": "pnpx rimraf node_modules",
+    "clean:turbo": "rimraf .turbo",
+    "clean": "pnpm clean:bundle && pnpm clean:node_modules && pnpm clean:turbo",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "pnpm lint --fix",
+    "prettier": "prettier . --write",
+    "type-check": "tsc --noEmit",
+    "migrate:latest": "tsx --env-file=../.env index.ts latest",
+    "migrate:rollback": "tsx --env-file=../.env index.ts rollback",
+    "migrate:refresh": "tsx --env-file=../.env index.ts rollback && tsx --env-file=../.env index.ts latest"
+  },
+  "dependencies": {
+    "kysely": "^0.27.5",
+    "node-pg": "^1.0.1",
+    "@types/pg": "^8.11.10"
+  },
+  "devDependencies": {
+    "@extension/tsconfig": "workspace:*",
+    "tsx": "^4.7.1",
+    "typescript": "5.3.3"
+  }
+}

@@ -1,28 +1,28 @@
 {
-  "name": "@extension/dev-utils",
+  "name": "@extension/schema",
   "version": "0.1.0",
-  "description": "chrome extension - dev utils",
+  "description": "chrome extension - backend api",
   "private": true,
-  "sideEffects": false,
-  "files": [
-    "dist/**"
-  ],
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "types": "index.ts",
   "scripts": {
+    "dev": "tsx watch src/index.ts --env-file=../.env",
+    "build": "tsc",
+    "start": "node dist/index.js",
     "clean:bundle": "rimraf dist",
     "clean:node_modules": "pnpx rimraf node_modules",
     "clean:turbo": "rimraf .turbo",
     "clean": "pnpm clean:bundle && pnpm clean:node_modules && pnpm clean:turbo",
-    "ready": "tsc",
-    "lint": "eslint . --ext .ts,.tsx",
+    "lint": "eslint . --ext .ts",
     "lint:fix": "pnpm lint --fix",
-    "prettier": "prettier . --write --ignore-path ../../.prettierignore",
+    "prettier": "prettier . --write",
     "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "kysely": "^0.27.5",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@extension/tsconfig": "workspace:*",
-    "@extension/shared": "workspace:*"
+    "tsx": "^4.7.1",
+    "typescript": "5.3.3"
   }
 }
