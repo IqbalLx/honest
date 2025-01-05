@@ -1,79 +1,52 @@
-import '@src/Popup.css';
-import { useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
-import { exampleThemeStorage } from '@extension/storage';
-import type { ComponentPropsWithoutRef } from 'react';
+import { useState, useEffect } from 'react';
+import { Button } from '@extension/ui/lib/components/ui/button';
+import { ScrollArea } from '@extension/ui/lib/components/ui/scroll-area';
+import CouponList from '@extension/ui/lib/components/CouponList';
+import NewCouponForm from '@extension/ui/lib/components/NewCouponForm';
+import EmptyState from '@extension/ui/lib/components/EmptyState';
+interface Coupon {
+  id: string;
+  code: string;
+  description: string;
+}
 
-const notificationOptions = {
-  type: 'basic',
-  iconUrl: chrome.runtime.getURL('icon-34.png'),
-  title: 'Injecting content script error',
-  message: 'You cannot inject script here!',
-} as const;
+export default function Popup() {
+  const [coupons, setCoupons] = useState<Coupon[]>([]);
+  const [currentSite, setCurrentSite] = useState<string>('');
+  const [showNewCouponForm, setShowNewCouponForm] = useState(false);
 
-const Popup = () => {
-  const theme = useStorage(exampleThemeStorage);
-  const isLight = theme === 'light';
-  const logo = isLight ? 'popup/logo_vertical.svg' : 'popup/logo_vertical_dark.svg';
-  const goGithubSite = () =>
-    chrome.tabs.create({ url: 'https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite' });
+  useEffect(() => {
+    // In a real extension, you would fetch the current site from the Chrome API
+    // and then fetch coupons for that site from your backend
+    setCurrentSite('example.com');
+    setCoupons([
+      { id: '1', code: 'SAVE10', description: '10% off your order' },
+      { id: '2', code: 'FREESHIP', description: 'Free shipping on orders over $50' },
+      // Adding more coupons to demonstrate scrolling
+      { id: '3', code: 'SUMMER25', description: '25% off summer collection' },
+      { id: '4', code: 'WELCOME15', description: '15% off for new customers' },
+      { id: '5', code: 'FLASH50', description: '50% off flash sale items' },
+    ]);
+  }, []);
 
-  const injectContentScript = async () => {
-    const [tab] = await chrome.tabs.query({ currentWindow: true, active: true });
-
-    if (tab.url!.startsWith('about:') || tab.url!.startsWith('chrome:')) {
-      chrome.notifications.create('inject-error', notificationOptions);
-    }
-
-    await chrome.scripting
-      .executeScript({
-        target: { tabId: tab.id! },
-        files: ['/content-runtime/index.iife.js'],
-      })
-      .catch(err => {
-        // Handling errors related to other paths
-        if (err.message.includes('Cannot access a chrome:// URL')) {
-          chrome.notifications.create('inject-error', notificationOptions);
-        }
-      });
+  const handleNewCoupon = (newCoupon: Omit<Coupon, 'id'>) => {
+    // In a real app, you would send this to your backend
+    const couponWithId = { ...newCoupon, id: Date.now().toString() };
+    setCoupons([...coupons, couponWithId]);
+    setShowNewCouponForm(false);
   };
 
   return (
-    <div className={`App ${isLight ? 'bg-slate-50' : 'bg-gray-800'}`}>
-      <header className={`App-header ${isLight ? 'text-gray-900' : 'text-gray-100'}`}>
-        <button onClick={goGithubSite}>
-          <img src={chrome.runtime.getURL(logo)} className="App-logo" alt="logo" />
-        </button>
-        <p>
-          Edit <code>pages/popup/src/Popup.tsx</code>
-        </p>
-        <button
-          className={
-            'font-bold mt-4 py-1 px-4 rounded shadow hover:scale-105 ' +
-            (isLight ? 'bg-blue-200 text-black' : 'bg-gray-700 text-white')
-          }
-          onClick={injectContentScript}>
-          Click to inject Content Script
-        </button>
-        <ToggleButton>Toggle theme</ToggleButton>
-      </header>
+    <div className="App w-[300px] h-[600px] p-4 flex flex-col">
+      <h1 className="text-2xl font-bold mb-4">Coupons for {currentSite}</h1>
+      <ScrollArea className="flex-grow mb-4">
+        {coupons.length > 0 ? <CouponList coupons={coupons} /> : <EmptyState />}
+      </ScrollArea>
+      {showNewCouponForm ? (
+        <NewCouponForm onSubmit={handleNewCoupon} onCancel={() => setShowNewCouponForm(false)} />
+      ) : (
+        <Button onClick={() => setShowNewCouponForm(true)}>Add New Coupon</Button>
+      )}
     </div>
   );
-};
-
-const ToggleButton = (props: ComponentPropsWithoutRef<'button'>) => {
-  const theme = useStorage(exampleThemeStorage);
-  return (
-    <button
-      className={
-        props.className +
-        ' ' +
-        'font-bold mt-4 py-1 px-4 rounded shadow hover:scale-105 ' +
-        (theme === 'light' ? 'bg-white text-black shadow-black' : 'bg-black text-white')
-      }
-      onClick={exampleThemeStorage.toggle}>
-      {props.children}
-    </button>
-  );
-};
-
-export default withErrorBoundary(withSuspense(Popup, <div> Loading ... </div>), <div> Error Occur </div>);
+}
