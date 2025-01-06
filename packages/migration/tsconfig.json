@@ -1,5 +1,4 @@
 {
-  "extends": "@extension/tsconfig/base",
   "compilerOptions": {
     "outDir": "dist",
     "module": "CommonJS",
@@ -7,6 +6,6 @@
     "lib": ["ES2022"],
     "types": ["node"]
   },
-  "include": ["index.ts"],
+  "include": ["index.ts", "src/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }

@@ -20,8 +20,9 @@
   },
   "dependencies": {
     "@extension/shared": "workspace:*",
-    "@extension/storage": "workspace:*",
-    "@extension/ui": "workspace:*"
+    "@extension/ui": "workspace:*",
+    "@extension/schema": "workspace:*",
+    "lucide-react": "^0.469.0"
   },
   "devDependencies": {
     "@extension/tailwindcss-config": "workspace:*",

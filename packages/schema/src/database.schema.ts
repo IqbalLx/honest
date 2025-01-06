@@ -13,5 +13,5 @@ type DefaultAutoCols = {
 type CouponTable = Modify<Coupon, DefaultAutoCols>;
 
 export type Database = {
-  coupon: CouponTable;
+  coupons: CouponTable;
 };

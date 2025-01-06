@@ -1,4 +1,4 @@
-import type { FastifyInstance, FastifyPluginAsync } from 'fastify';
+import type { FastifyInstance } from 'fastify';
 import fp from 'fastify-plugin';
 import { Kysely, PostgresDialect, type PostgresDialectConfig, sql } from 'kysely';
 
@@ -10,11 +10,12 @@ declare module 'fastify' {
   }
 }
 
-export const db: FastifyPluginAsync = fp(async (fastify: FastifyInstance, config: PostgresDialectConfig) => {
+export const db = fp(async (fastify: FastifyInstance, config: PostgresDialectConfig) => {
   const db = new Kysely<Database>({
     dialect: new PostgresDialect(config),
   });
-  await sql`select 1`
+
+  sql`select 1`
     .execute(db)
     .then(() => {
       console.info('Database connected');

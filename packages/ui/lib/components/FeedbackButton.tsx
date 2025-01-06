@@ -4,18 +4,35 @@ import { ThumbsUp, ThumbsDown } from 'lucide-react';
 
 import { cn } from '../utils';
 
+import { getAxiosInstance, voteCoupon } from '@extension/shared';
+
 interface FeedbackButtonProps {
-  couponId: string;
+  couponCode: string;
 }
 
-export default function FeedbackButton({ couponId }: FeedbackButtonProps) {
+export default function FeedbackButton({ couponCode }: FeedbackButtonProps) {
   const [feedback, setFeedback] = useState<'positive' | 'negative' | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleFeedback = (type: 'positive' | 'negative') => {
-    setFeedback(type);
-    // In a real app, you would send this feedback to your backend
-    console.log(`Feedback for coupon ${couponId}: ${type}`);
+  const api = getAxiosInstance(import.meta.env.VITE_API_URL);
+
+  const handleFeedback = async (type: 'positive' | 'negative') => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      await voteCoupon(api, couponCode, type === 'positive' ? 'up' : 'down');
+      setFeedback(type);
+    } catch (err) {
+      setError('Failed to submit feedback. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  if (error) {
+    return <p className="text-red-500 text-sm">{error}</p>;
+  }
 
   return (
     <div className="flex space-x-2">
@@ -23,7 +40,7 @@ export default function FeedbackButton({ couponId }: FeedbackButtonProps) {
         variant="outline"
         size="icon"
         onClick={() => handleFeedback('positive')}
-        disabled={feedback !== null}
+        disabled={feedback !== null || isLoading}
         className={cn(
           'transition-colors',
           feedback === 'positive' && 'bg-green-500 text-white border-green-500 hover:bg-green-500 hover:text-white',
@@ -34,7 +51,7 @@ export default function FeedbackButton({ couponId }: FeedbackButtonProps) {
         variant="outline"
         size="icon"
         onClick={() => handleFeedback('negative')}
-        disabled={feedback !== null}
+        disabled={feedback !== null || isLoading}
         className={cn(
           'transition-colors',
           feedback === 'negative' && 'bg-red-500 text-white border-red-500 hover:bg-red-500 hover:text-white',

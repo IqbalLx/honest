@@ -19,5 +19,6 @@
     "noImplicitReturns": true,
     "jsx": "react-jsx",
     "lib": ["DOM", "ESNext"]
-  }
+  },
+  "include": ["**/*.ts", "**/*.tsx", "**/*.d.ts"]
 }

@@ -4,7 +4,7 @@
   "description": "chrome extension - backend api",
   "private": true,
   "scripts": {
-    "dev": "tsx watch src/index.ts --env-file=../.env",
+    "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
     "clean:bundle": "rimraf dist",
@@ -17,12 +17,12 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "kysely": "^0.27.5",
-    "zod": "^3.24.1"
+    "@sinclair/typebox": "^0.34.13",
+    "kysely": "^0.27.5"
   },
   "devDependencies": {
     "@extension/tsconfig": "workspace:*",
-    "tsx": "^4.7.1",
-    "typescript": "5.3.3"
+    "tsx": "^4.19.2",
+    "typescript": "5.7.2"
   }
 }

@@ -14,18 +14,22 @@
     "lint:fix": "pnpm lint --fix",
     "prettier": "prettier . --write",
     "type-check": "tsc --noEmit",
-    "migrate:latest": "tsx --env-file=../.env index.ts latest",
-    "migrate:rollback": "tsx --env-file=../.env index.ts rollback",
-    "migrate:refresh": "tsx --env-file=../.env index.ts rollback && tsx --env-file=../.env index.ts latest"
+    "migrate:latest": "tsc && node --env-file ../../.env dist/index.js latest",
+    "migrate:rollback": "tsc && node --env-file ../../.env dist/index.js rollback",
+    "migrate:refresh": "tsc && node --env-file ../../.env dist/index.js rollback && tsc && node --env-file ../../.env dist/index.js latest"
   },
   "dependencies": {
+    "@types/pg": "^8.11.10",
     "kysely": "^0.27.5",
     "node-pg": "^1.0.1",
-    "@types/pg": "^8.11.10"
+    "pg": "^8.13.1"
   },
   "devDependencies": {
     "@extension/tsconfig": "workspace:*",
     "tsx": "^4.7.1",
     "typescript": "5.3.3"
+  },
+  "volta": {
+    "node": "23.5.0"
   }
 }

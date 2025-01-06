@@ -1,12 +1,14 @@
 {
-  "extends": "@extension/tsconfig/base",
+  "extends": "@extension/tsconfig/utils",
   "compilerOptions": {
     "outDir": "dist",
+    "rootDir": ".",
     "module": "CommonJS",
     "target": "ES2022",
     "lib": ["ES2022"],
-    "types": ["node"]
+    "types": ["node"],
+    "baseUrl": "."
   },
-  "include": ["*.ts"],
+  "include": ["src/*.ts", "index.ts"],
   "exclude": ["node_modules", "dist"]
 }

@@ -5,14 +5,10 @@ import { Clipboard, CheckCircle } from 'lucide-react';
 
 import FeedbackButton from './FeedbackButton';
 
-interface Coupon {
-  id: string;
-  code: string;
-  description: string;
-}
+import type { CouponAPI } from '@extension/schema';
 
 interface CouponListProps {
-  coupons: Coupon[];
+  coupons: CouponAPI['getCoupons']['response']['coupons'];
 }
 
 export default function CouponList({ coupons }: CouponListProps) {
@@ -27,7 +23,7 @@ export default function CouponList({ coupons }: CouponListProps) {
   return (
     <div className="space-y-4">
       {coupons.map(coupon => (
-        <Card key={coupon.id}>
+        <Card key={coupon.code}>
           <CardContent className="pt-4">
             <h2 className="text-lg font-semibold">{coupon.code}</h2>
             <p className="text-sm text-gray-500">{coupon.description}</p>
@@ -40,7 +36,7 @@ export default function CouponList({ coupons }: CouponListProps) {
                 <Clipboard className="h-4 w-4" />
               )}
             </Button>
-            <FeedbackButton couponId={coupon.id} />
+            <FeedbackButton couponCode={coupon.code} />
           </CardFooter>
         </Card>
       ))}

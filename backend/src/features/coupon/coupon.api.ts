@@ -1,12 +1,13 @@
 import type { FastifyPluginAsync } from 'fastify';
-import { type ErrorSchema, addErrorSchemas, couponAPISchema } from '@extension/schema';
+import type { CouponAPI, ErrorResponse } from '@extension/schema';
+import { addErrorSchemas, couponAPISchema } from '@extension/schema';
+
 import { doGetCoupons, doSubmitCoupon, doVoteCoupon } from './coupon.shell';
-import type { z } from 'zod';
 
 export const couponRoute: FastifyPluginAsync = async function (fastify): Promise<void> {
   fastify.get<{
-    Querystring: z.infer<typeof couponAPISchema.getCoupons.querystring>;
-    Reply: z.infer<typeof couponAPISchema.getCoupons.response> | ErrorSchema;
+    Querystring: CouponAPI['getCoupons']['querystring'];
+    Reply: CouponAPI['getCoupons']['response'] | ErrorResponse;
   }>(
     `${couponAPISchema.getCoupons.path}`,
     {
@@ -22,7 +23,7 @@ export const couponRoute: FastifyPluginAsync = async function (fastify): Promise
     },
     async function (request, reply) {
       try {
-        const coupons = await doGetCoupons(request.db, request.query.url);
+        const coupons = await doGetCoupons(fastify.db, request.query.url);
         reply.status(200).send({ coupons });
       } catch (error) {
         console.error(error);
@@ -32,8 +33,8 @@ export const couponRoute: FastifyPluginAsync = async function (fastify): Promise
   );
 
   fastify.post<{
-    Body: z.infer<typeof couponAPISchema.submitCoupon.body>;
-    Reply: z.infer<typeof couponAPISchema.submitCoupon.response> | ErrorSchema;
+    Body: CouponAPI['submitCoupon']['body'];
+    Reply: CouponAPI['submitCoupon']['response'] | ErrorResponse;
   }>(
     `${couponAPISchema.submitCoupon.path}`,
     {
@@ -50,7 +51,7 @@ export const couponRoute: FastifyPluginAsync = async function (fastify): Promise
     async function (request, reply) {
       try {
         const { url, ...rest } = request.body;
-        await doSubmitCoupon(request.db, url, rest);
+        await doSubmitCoupon(fastify.db, url, rest);
         reply.status(204).send(null);
       } catch (error) {
         console.error(error);
@@ -60,8 +61,8 @@ export const couponRoute: FastifyPluginAsync = async function (fastify): Promise
   );
 
   fastify.post<{
-    Body: z.infer<typeof couponAPISchema.voteCoupon.body>;
-    Reply: z.infer<typeof couponAPISchema.voteCoupon.response> | ErrorSchema;
+    Body: CouponAPI['voteCoupon']['body'];
+    Reply: CouponAPI['voteCoupon']['response'] | ErrorResponse;
   }>(
     `${couponAPISchema.voteCoupon.path}`,
     {
@@ -78,7 +79,7 @@ export const couponRoute: FastifyPluginAsync = async function (fastify): Promise
     async function (request, reply) {
       try {
         const { code, vote } = request.body;
-        await doVoteCoupon(request.db, code, vote);
+        await doVoteCoupon(fastify.db, code, vote);
         reply.status(204).send(null);
       } catch (error) {
         console.error(error);

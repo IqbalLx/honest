@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 
-import { getHostname } from './coupon.core';
+import { getHostname, isValidHostname } from './coupon.core';
 import assert from 'node:assert';
 
 describe('coupon.core', () => {
@@ -10,5 +10,12 @@ describe('coupon.core', () => {
     assert.strictEqual(getHostname('https://www.shopee.co.id/product/umbrella'), 'shopee.co.id');
     assert.strictEqual(getHostname('https://www.bukalapak.com/product/umbrella'), 'bukalapak.com');
     assert.strictEqual(getHostname('https://www.zalora.co.id/product/umbrella'), 'zalora.co.id');
+  });
+
+  it('should validate hostname', () => {
+    assert.strictEqual(isValidHostname('example.com'), true);
+    assert.strictEqual(isValidHostname('sub.example.com'), true);
+    assert.strictEqual(isValidHostname('-example.com'), false);
+    assert.strictEqual(isValidHostname('example-.com'), false);
   });
 });

@@ -2,6 +2,7 @@ import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
+import rateLimit from '@fastify/rate-limit';
 import { Pool } from 'pg';
 
 import { db } from './plugins/database';
@@ -42,7 +43,38 @@ const start = async () => {
       origin: true,
     });
 
-    const pgConfig = new Pool({ connectionString: process.env.DATABASE_URL });
+    if (!isDev) {
+      await fastify.register(rateLimit, {
+        global: true,
+        max: 100,
+        timeWindow: '1 minute',
+        addHeadersOnExceeding: {
+          'x-ratelimit-limit': false,
+          'x-ratelimit-remaining': false,
+          'x-ratelimit-reset': false,
+        },
+        addHeaders: {
+          'x-ratelimit-limit': false,
+          'x-ratelimit-remaining': false,
+          'x-ratelimit-reset': false,
+          'retry-after': false,
+        },
+      });
+
+      fastify.setNotFoundHandler(
+        {
+          preHandler: fastify.rateLimit({
+            max: 4,
+            timeWindow: '1 hour',
+          }),
+        },
+        function (request, reply) {
+          reply.code(404).send({ message: 'quit quessing!' });
+        },
+      );
+    }
+
+    const pgConfig = { pool: new Pool({ connectionString: process.env.DATABASE_URL }) };
     await fastify.register(db, pgConfig);
 
     // Routes
@@ -53,7 +85,7 @@ const start = async () => {
     const API_PREFIX = `/api/v1`;
     fastify.register(couponRoute, { prefix: `${API_PREFIX}${couponAPISchema.path}` });
 
-    await fastify.listen({ port: 3000 });
+    await fastify.listen({ port: 3000, host: '0.0.0.0' });
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);
