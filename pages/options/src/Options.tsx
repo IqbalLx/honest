@@ -1,25 +1,19 @@
 import '@src/Options.css';
 import { withErrorBoundary, withSuspense } from '@extension/shared';
-import { Button } from '@extension/ui/lib/components/ui/button';
 
 const Options = () => {
-  const isLight = false;
-  const logo = isLight ? 'options/logo_horizontal.svg' : 'options/logo_horizontal_dark.svg';
-  const goGithubSite = () =>
-    chrome.tabs.create({ url: 'https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite' });
-
   return (
-    <div className={`App ${isLight ? 'bg-slate-50 text-gray-900' : 'bg-gray-800 text-gray-100'}`}>
-      <button onClick={goGithubSite}>
-        <img src={chrome.runtime.getURL(logo)} className="App-logo" alt="logo" />
-      </button>
-      <p>
-        Edit <code>pages/options/src/Options.tsx</code>
-      </p>
-      <Button className="mt-4" onClick={() => {}}>
-        Toggle theme
-      </Button>
-    </div>
+    <main className="flex-1 flex items-center justify-center text-center px-4">
+      <div className="max-w-3xl">
+        <h1 className="text-4xl font-extrabold leading-tight">
+          Find the Best Deals, <span className="text-yellow-600">Honestly</span>
+        </h1>
+        <p className="mt-4 text-lg text-gray-600">
+          Honest is a community-driven coupon-finder extension that helps you save money without stealing your affiliate
+          referral cookies. We believe in transparency and user-first experience.
+        </p>
+      </div>
+    </main>
   );
 };
 

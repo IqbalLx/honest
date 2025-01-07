@@ -69,7 +69,9 @@ export default function Popup() {
 
   return (
     <div className="w-[300px] h-[600px] p-4 flex flex-col">
-      <h1 className="text-2xl font-bold mb-4">Coupons for {currentSite}</h1>
+      <h1 className="text-2xl font-bold mb-4">
+        Coupons for <span className="text-yellow-600">{currentSite}</span>
+      </h1>
       <ScrollArea className="flex-grow mb-4">
         {coupons.length > 0 ? <CouponList coupons={coupons} /> : <EmptyState />}
       </ScrollArea>

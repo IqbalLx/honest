@@ -18,12 +18,12 @@ export const watchOption = isDev ? {
  * @param {UserConfig} config
  * @returns {UserConfig}
  */
-export function withPageConfig(config) {
+export function withPageConfig(config, landingPage = false) {
   return defineConfig(
     deepmerge(
       {
         base: '',
-        plugins: [react(), isDev && watchRebuildPlugin({ refresh: true })],
+        plugins: [react(), !landingPage && isDev && watchRebuildPlugin({ refresh: true })],
         build: {
           sourcemap: isDev,
           minify: isProduction,

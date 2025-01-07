@@ -195,6 +195,34 @@ importers:
         specifier: ^9.5.1
         version: 9.5.1(typescript@5.7.2)(webpack@5.94.0(@swc/core@1.9.3)(esbuild@0.24.2))
 
+  landing-page:
+    dependencies:
+      '@extension/ui':
+        specifier: workspace:*
+        version: link:../packages/ui
+      lucide-react:
+        specifier: ^0.469.0
+        version: 0.469.0(react@19.0.0)
+    devDependencies:
+      '@extension/tailwindcss-config':
+        specifier: workspace:*
+        version: link:../packages/tailwind-config
+      '@extension/tsconfig':
+        specifier: workspace:*
+        version: link:../packages/tsconfig
+      '@extension/vite-config':
+        specifier: workspace:*
+        version: link:../packages/vite-config
+      '@vitejs/plugin-react-swc':
+        specifier: ^3.7.2
+        version: 3.7.2(vite@6.0.7(@types/node@22.10.5)(jiti@1.21.7)(sass@1.79.4)(terser@5.37.0)(tsx@4.19.2)(yaml@2.7.0))
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+      postcss-load-config:
+        specifier: ^6.0.1
+        version: 6.0.1(jiti@1.21.7)(postcss@8.4.49)(tsx@4.19.2)(yaml@2.7.0)
+
   packages/dev-utils:
     devDependencies:
       '@extension/shared':
