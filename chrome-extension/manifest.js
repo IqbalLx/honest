@@ -9,9 +9,10 @@ const manifest = {
    * if you want to support multiple languages, you can use the following reference
    * https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Internationalization
    */
-  name: '__MSG_extensionName__',
+  name: 'Honest',
   version: packageJson.version,
-  description: '__MSG_extensionDescription__',
+  description:
+    'Honest is a community-driven coupon-finder extension that helps you save money without stealing your affiliate referral cookies. We believe in transparency and user-first experience.',
   host_permissions: ['<all_urls>'],
   permissions: ['tabs'],
   options_page: 'options/index.html',

@@ -27,7 +27,10 @@ export default function LandingPage() {
       {/* Header */}
       <header className="w-full py-4 bg-white shadow-md">
         <div className="container mx-auto px-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Honest</h1>
+          <div className="flex items-center">
+            <img src="/public/icon-128.png" alt="Honest" className="w-8 h-8" />
+            <h1 className="text-2xl font-bold">Honest</h1>
+          </div>
           <a href={githubUrl} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-black">
             <GithubIcon className="w-5 h-5" />
           </a>
