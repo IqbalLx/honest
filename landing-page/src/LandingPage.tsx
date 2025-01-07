@@ -2,6 +2,7 @@ import { Button } from '@extension/ui/lib/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@extension/ui/lib/components/ui/card';
 import { GithubIcon } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function LandingPage() {
   const githubUrl = 'https://github.com/IqbalLx/honest';
@@ -28,12 +29,21 @@ export default function LandingPage() {
       <header className="w-full py-4 bg-white shadow-md">
         <div className="container mx-auto px-4 flex justify-between items-center">
           <div className="flex items-center">
-            <img src="/public/icon-128.png" alt="Honest" className="w-8 h-8" />
+            <img src="/icon-128.png" alt="Honest" className="w-8 h-8" />
             <h1 className="text-2xl font-bold">Honest</h1>
           </div>
-          <a href={githubUrl} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-black">
-            <GithubIcon className="w-5 h-5" />
-          </a>
+          <div className="flex items-center space-x-4">
+            <Link to="/privacy-policy" className="text-gray-500 hover:text-black">
+              Privacy Policy
+            </Link>
+            <a
+              href="https://github.com/IqbalLx/honest"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-500 hover:text-black">
+              <GithubIcon className="w-5 h-5" />
+            </a>
+          </div>
         </div>
       </header>
 
@@ -68,7 +78,7 @@ export default function LandingPage() {
             <CardHeader>
               <CardTitle>No Affiliate Stealing</CardTitle>
             </CardHeader>
-            <CardContent>Your privacy is respected. We don’t steal or overwrite your affiliate cookies.</CardContent>
+            <CardContent>Your privacy is respected. We don't steal or overwrite your affiliate cookies.</CardContent>
           </Card>
           <Card>
             <CardHeader>

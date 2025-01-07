@@ -1,6 +1,5 @@
 import { resolve } from 'node:path';
 import { withPageConfig } from '@extension/vite-config';
-import react from '@vitejs/plugin-react-swc';
 
 const rootDir = resolve(__dirname);
 const srcDir = resolve(rootDir, 'src');
