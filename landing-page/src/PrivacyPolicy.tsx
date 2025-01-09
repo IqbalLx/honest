@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export function PrivacyPolicy() {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center px-4">
@@ -13,6 +15,11 @@ export function PrivacyPolicy() {
           privacy at all times.
         </p>
         <p>For any questions or concerns regarding our privacy policy, please contact us via our GitHub repository.</p>
+      </div>
+      <div className="mt-8">
+        <Link to="/" className="text-yellow-600 hover:text-yellow-800">
+          Back to Home
+        </Link>
       </div>
     </div>
   );

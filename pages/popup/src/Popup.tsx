@@ -16,7 +16,10 @@ export default function Popup() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const api = getAxiosInstance(import.meta.env.VITE_API_URL);
+  const apiURL =
+    import.meta.env.MODE === 'development' ? import.meta.env.VITE_API_URL_DEV : import.meta.env.VITE_API_URL;
+
+  const api = getAxiosInstance(apiURL);
 
   useEffect(() => {
     const fetchCoupons = async () => {
@@ -52,7 +55,7 @@ export default function Popup() {
 
   if (isLoading) {
     return (
-      <div className="w-[300px] h-[800px] flex items-center justify-center">
+      <div className="w-[300px] h-[600px] flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin" />
       </div>
     );
@@ -60,7 +63,7 @@ export default function Popup() {
 
   if (error) {
     return (
-      <div className="w-[300px] h-[800px] p-4 flex flex-col items-center justify-center">
+      <div className="w-[300px] h-[600px] p-4 flex flex-col items-center justify-center">
         <p className="text-red-500 mb-4">{error}</p>
         <Button onClick={() => window.location.reload()}>Retry</Button>
       </div>

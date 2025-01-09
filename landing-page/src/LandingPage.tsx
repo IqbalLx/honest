@@ -21,7 +21,7 @@ export default function LandingPage() {
   const storeLink =
     browser === 'firefox'
       ? 'https://addons.mozilla.org/en-US/firefox/addon/honest/'
-      : 'https://chrome.google.com/webstore/detail/honest/';
+      : 'https://chromewebstore.google.com/detail/honest/oclpglpbchnnnblmjolopamcepghgbga';
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-between">

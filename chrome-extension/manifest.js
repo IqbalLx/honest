@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 
 const packageJson = JSON.parse(fs.readFileSync('../package.json', 'utf8'));
+const isDev = process.env.__DEV__ === 'true';
 
 const manifest = {
   manifest_version: 3,
@@ -9,10 +10,10 @@ const manifest = {
    * if you want to support multiple languages, you can use the following reference
    * https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Internationalization
    */
-  name: 'Honest',
+  name: `Honest${isDev ? '-dev' : ''}`,
   version: packageJson.version,
   description:
-    'Honest is a community-driven coupon-finder extension that helps you save money without stealing your affiliate referral cookies. We believe in transparency and user-first experience.',
+    'Honest is a community-driven coupon-finder extension that helps you save money without stealing your affiliate referral cookies.',
   host_permissions: ['<all_urls>'],
   permissions: ['tabs'],
   options_page: 'options/index.html',
