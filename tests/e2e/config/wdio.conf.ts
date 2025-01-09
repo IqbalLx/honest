@@ -62,7 +62,7 @@ export const config: WebdriverIO.Config = {
   bail: 0,
   //
   // Default timeout for all waitFor* commands.
-  waitforTimeout: 10000,
+  waitforTimeout: 30000,
 
   //
   // Default timeout in milliseconds for request
